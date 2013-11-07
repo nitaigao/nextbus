@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2D2EEF641CD6423AB4C936B2 /* libPods-NextBus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D090992E162241E48E991121 /* libPods-NextBus.a */; };
 		4C1AF289182AFDB6000CE129 /* BusStopListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1AF288182AFDB6000CE129 /* BusStopListing.m */; };
+		4C1AF28B182B80D7000CE129 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1AF28A182B80D7000CE129 /* MapKit.framework */; };
+		4C1AF28F182B81DC000CE129 /* MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1AF28E182B81DC000CE129 /* MapAnnotation.m */; };
 		4C87B416182AEBDA00F55F1D /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B415182AEBDA00F55F1D /* BusStop.m */; };
 		4CF1DDB9182AE9FB00DE6BC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDB8182AE9FB00DE6BC5 /* Foundation.framework */; };
 		4CF1DDBB182AE9FB00DE6BC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDBA182AE9FB00DE6BC5 /* CoreGraphics.framework */; };
@@ -42,6 +44,9 @@
 		21B63F572A2243A586B7AFC5 /* Pods-NextBus.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NextBus.xcconfig"; path = "Pods/Pods-NextBus.xcconfig"; sourceTree = "<group>"; };
 		4C1AF287182AFDB6000CE129 /* BusStopListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopListing.h; sourceTree = "<group>"; };
 		4C1AF288182AFDB6000CE129 /* BusStopListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopListing.m; sourceTree = "<group>"; };
+		4C1AF28A182B80D7000CE129 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4C1AF28D182B81DC000CE129 /* MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAnnotation.h; sourceTree = "<group>"; };
+		4C1AF28E182B81DC000CE129 /* MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapAnnotation.m; sourceTree = "<group>"; };
 		4C87B414182AEBDA00F55F1D /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
 		4C87B415182AEBDA00F55F1D /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
 		4CF1DDB5182AE9FB00DE6BC5 /* NextBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C1AF28B182B80D7000CE129 /* MapKit.framework in Frameworks */,
 				4CF1DDBB182AE9FB00DE6BC5 /* CoreGraphics.framework in Frameworks */,
 				4CF1DDBD182AE9FB00DE6BC5 /* UIKit.framework in Frameworks */,
 				4CF1DDB9182AE9FB00DE6BC5 /* Foundation.framework in Frameworks */,
@@ -94,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C1AF28C182B81CF000CE129 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4C1AF28D182B81DC000CE129 /* MapAnnotation.h */,
+				4C1AF28E182B81DC000CE129 /* MapAnnotation.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		4C87B413182AEBCF00F55F1D /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +143,7 @@
 		4CF1DDB7182AE9FB00DE6BC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C1AF28A182B80D7000CE129 /* MapKit.framework */,
 				4CF1DDB8182AE9FB00DE6BC5 /* Foundation.framework */,
 				4CF1DDBA182AE9FB00DE6BC5 /* CoreGraphics.framework */,
 				4CF1DDBC182AE9FB00DE6BC5 /* UIKit.framework */,
@@ -140,6 +156,7 @@
 		4CF1DDBE182AE9FB00DE6BC5 /* NextBus */ = {
 			isa = PBXGroup;
 			children = (
+				4C1AF28C182B81CF000CE129 /* View */,
 				4C87B413182AEBCF00F55F1D /* Model */,
 				4CF1DDC7182AE9FB00DE6BC5 /* AppDelegate.h */,
 				4CF1DDC8182AE9FB00DE6BC5 /* AppDelegate.m */,
@@ -323,6 +340,7 @@
 				4C87B416182AEBDA00F55F1D /* BusStop.m in Sources */,
 				4CF1DDC5182AE9FB00DE6BC5 /* main.m in Sources */,
 				4CF1DDD5182AE9FB00DE6BC5 /* DetailViewController.m in Sources */,
+				4C1AF28F182B81DC000CE129 /* MapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

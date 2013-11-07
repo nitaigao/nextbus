@@ -5,5 +5,6 @@
 @synthesize name;
 @synthesize id;
 @synthesize direction;
+@synthesize latitude, longitude;
 
 @end

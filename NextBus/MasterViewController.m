@@ -61,6 +61,8 @@
     [stopMapping addAttributeMappingsFromDictionary:@{@"name": @"name"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"smsCode": @"id"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"direction": @"direction"}];
+    [stopMapping addAttributeMappingsFromDictionary:@{@"lng": @"longitude"}];
+    [stopMapping addAttributeMappingsFromDictionary:@{@"lat": @"latitude"}];
     
     
     float swLat = newLocation.coordinate.latitude - 0.01;
@@ -119,8 +121,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([[segue identifier] isEqualToString:@"showDetail"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSDate *object = _stops[indexPath.row];
-    [[segue destinationViewController] setDetailItem:object];
+    BusStop* stop = _stops[indexPath.row];
+    [[segue destinationViewController] setDetailItem:stop];
   }
 }
 
