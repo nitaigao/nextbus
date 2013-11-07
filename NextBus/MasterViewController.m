@@ -28,7 +28,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
   self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
@@ -106,7 +105,15 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
   BusStop* stop = _stops[indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"(%5@) %@", stop.direction, stop.name];
+  NSString* direction = [NSString stringWithFormat:@"(%@)", stop.direction];
+  
+  NSInteger spacesLeft = 4 - direction.length;
+  
+  for (int i = 0; i < spacesLeft; i++) {
+    direction = [direction stringByAppendingString:@"  "];
+  }
+
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", direction, stop.name];
   
   return cell;
 }
