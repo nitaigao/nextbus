@@ -41,6 +41,13 @@
   _locationUpdates = 0;
   
   {
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(51.507222,-0.1275);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.3, 0.3);
+    MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
+    [mapView setRegion:zoomRegion animated:NO];
+  }
+  
+  {
     NSURL* host = [NSURL URLWithString:@"http://countdown.tfl.gov.uk"];
     
     RKObjectManager* objectManager = [RKObjectManager managerWithBaseURL:host];//[NSURL URLWithString:@"http://localhost:4567"]];
@@ -49,11 +56,13 @@
     [RKMIMETypeSerialization registerClass:[RKXMLReaderSerialization class] forMIMEType:@"text/xml"];
     [[RKObjectManager sharedManager] setAcceptHeaderWithMIMEType:RKMIMETypeTextXML];
   }
-  
+
   {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
+#ifndef TARGET_IPHONE_SIMULATOR
     [locationManager startUpdatingLocation];
+#endif
   }
 }
 
@@ -64,7 +73,7 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(BusStopAnnotation*)annotation {
   MKAnnotationView *annotationView =  [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
   
-  UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+  UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
   button.frame = CGRectMake(0, 0, 23, 23);
   button.tag = [_stops indexOfObject:annotation.busStop];
   [button addTarget:self action:@selector(stopSelected:) forControlEvents:UIControlEventTouchUpInside];
@@ -81,7 +90,6 @@
 
 - (void)refreshMap:(CLLocationCoordinate2D)position {
   // meters a way = 111km in a degree
-  
   float metersToDegrees = 1.0f / 111000.0f;
   
   float degreesDelta = 300.0f * metersToDegrees;
@@ -112,17 +120,19 @@
   [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
                                          parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                            NSArray* results = [mappingResult array];
+                                           [_stops removeAllObjects];
                                            [_stops addObjectsFromArray:results];
-                                           //[self.tableView reloadData];
+                                           
+                                           for (id annotation in mapView.annotations) {
+                                             [mapView removeAnnotation:annotation];
+                                           }
                                            
                                            for (BusStop* stop in _stops) {
                                              CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
-                                             NSString* title = [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name];
+                                             NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
                                              BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
                                              [mapView addAnnotation:annotation];
                                            }
-                                           
-                                           
                                            
                                          } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                            NSLog(@"Load failed");
@@ -140,34 +150,6 @@
     
     [self refreshMap:coordinate];
   }
-}
-
-
-#pragma mark - Table View
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _stops.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-  BusStop* stop = _stops[indexPath.row];
-  NSString* direction = [NSString stringWithFormat:@"(%@)", stop.direction];
-  
-  NSInteger spacesLeft = 4 - direction.length;
-  
-  for (int i = 0; i < spacesLeft; i++) {
-    direction = [direction stringByAppendingString:@"  "];
-  }
-
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@", stop.indicator, direction, stop.name];
-  
-  return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

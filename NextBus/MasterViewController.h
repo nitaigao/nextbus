@@ -5,7 +5,7 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UIViewController<CLLocationManagerDelegate, MKMapViewDelegate>// UITableViewController<CLLocationManagerDelegate>
+@interface MasterViewController : UIViewController<CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) IBOutlet MKMapView* mapView;
 @property (strong, nonatomic) DetailViewController *detailViewController;
