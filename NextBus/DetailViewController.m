@@ -55,6 +55,8 @@
       RKObjectMapping* listingMapping = [RKObjectMapping mappingForClass:[BusStopListing class]];
       [listingMapping addAttributeMappingsFromDictionary:@{@"destination": @"destination"}];
       [listingMapping addAttributeMappingsFromDictionary:@{@"scheduledTime": @"time"}];
+      [listingMapping addAttributeMappingsFromDictionary:@{@"routeName": @"route"}];
+      [listingMapping addAttributeMappingsFromDictionary:@{@"estimatedWait": @"wait"}];
       
       RKResponseDescriptor *listingDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:listingMapping
                                                                                              method:RKRequestMethodGET
@@ -116,7 +118,7 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
   
   BusStopListing* listing = [_listings objectAtIndex:indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", listing.time, listing.destination];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@", listing.route, listing.destination, listing.wait];
   
   return cell;
 }

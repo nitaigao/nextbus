@@ -2,7 +2,6 @@
 
 @implementation BusStopListing
 
-@synthesize destination;
-@synthesize time;
+@synthesize destination, time, route, wait;
 
 @end

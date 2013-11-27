@@ -2,9 +2,6 @@
 
 @implementation BusStop
 
-@synthesize name;
-@synthesize id;
-@synthesize direction;
-@synthesize latitude, longitude;
+@synthesize name, id, direction, latitude, longitude, indicator;
 
 @end

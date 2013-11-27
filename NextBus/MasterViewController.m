@@ -55,19 +55,23 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
   if (++_locationUpdates == 5) {
-    
     RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[BusStop class]];
     [stopMapping addAttributeMappingsFromDictionary:@{@"name": @"name"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"smsCode": @"id"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"direction": @"direction"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"lng": @"longitude"}];
     [stopMapping addAttributeMappingsFromDictionary:@{@"lat": @"latitude"}];
+    [stopMapping addAttributeMappingsFromDictionary:@{@"stopIndicator": @"indicator"}];
+  
+    
+    // meters a way = 111km in a degree
     
     
-    float swLat = newLocation.coordinate.latitude - 0.01;
-    float swLng = newLocation.coordinate.longitude - 0.01;
-    float neLat = newLocation.coordinate.latitude + 0.01;
-    float neLng = newLocation.coordinate.longitude + 0.01;
+    float degreesDelta = 0.001f;
+    float swLat = newLocation.coordinate.latitude - degreesDelta;
+    float swLng = newLocation.coordinate.longitude - degreesDelta;
+    float neLat = newLocation.coordinate.latitude + degreesDelta;
+    float neLng = newLocation.coordinate.longitude + degreesDelta;
     
     NSString* pathPattern = [NSString stringWithFormat:@"/markers/swLat/%f/swLng/%f/neLat/%f/neLng/%f/", swLat, swLng, neLat, neLng];
     
@@ -113,7 +117,7 @@
     direction = [direction stringByAppendingString:@"  "];
   }
 
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", direction, stop.name];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@", stop.indicator, direction, stop.name];
   
   return cell;
 }
