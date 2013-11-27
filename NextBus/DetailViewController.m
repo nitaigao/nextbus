@@ -4,6 +4,7 @@
 
 #import "BusStop.h"
 #import "BusStopListing.h"
+#import "BusListingTableViewCell.h"
 
 #import "MapAnnotation.h"
 
@@ -12,8 +13,6 @@
 }
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-
-- (void)configureView;
 
 @end
 
@@ -26,7 +25,6 @@
 - (void)setDetailItem:(id)newDetailItem {
   if (_detailItem != newDetailItem) {
     _detailItem = newDetailItem;
-    [self configureView];
   }
 
   if (self.masterPopoverController != nil) {
@@ -37,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated {
   {
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(_detailItem.latitude, _detailItem.longitude);
-    MapAnnotation* annotation = [[MapAnnotation alloc] initWithCoordinate:coordinate];
+    MapAnnotation* annotation = [[MapAnnotation alloc] initWithCoordinate:coordinate andTitle:_detailItem.indicator];
     [mapView addAnnotation:annotation];
   }
   
@@ -47,9 +45,9 @@
     MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
     [mapView setRegion:zoomRegion animated:NO];
   }
+  
   {
     NSString* pathPattern = [NSString stringWithFormat:@"/stopBoard/%@/", _detailItem.id];
-    
     
     {
       RKObjectMapping* listingMapping = [RKObjectMapping mappingForClass:[BusStopListing class]];
@@ -65,43 +63,37 @@
                                                                                         statusCodes:[NSIndexSet indexSetWithIndex:200]];
       
       [[RKObjectManager sharedManager] addResponseDescriptor:listingDescriptor];
-      
     }
     
     {
-      [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
-                                             parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                               NSArray* results = [mappingResult array];
-                                               [_listings addObjectsFromArray:results];
-                                               [listingsTableView reloadData];
-                                             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                               NSLog(@"Load failed");
-                                             }];
-      
-      
+      titleNavigationItem.title = [NSString stringWithFormat:@"%@ - %@", _detailItem.indicator, _detailItem.name];
     }
     
-    {
-      titleNavigationItem.title = _detailItem.name;
-    }
-
+    [self refreshStops:nil];
   }
 }
 
-- (void)configureView {
-  if (self.detailItem) {
-
+- (void)refreshStops:(NSTimer*)timer {
+  if (self.navigationController.topViewController == self) {
+    NSString* pathPattern = [NSString stringWithFormat:@"/stopBoard/%@/", _detailItem.id];
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
+                                           parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                             NSArray* results = [mappingResult array];
+                                             [_listings removeAllObjects];
+                                             [_listings addObjectsFromArray:results];
+                                             [listingsTableView reloadData];
+                                           } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                             NSLog(@"Load failed");
+                                           }];
+  
+    [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refreshStops:) userInfo:nil repeats:NO];
   }
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   _listings = [NSMutableArray array];
-  [self configureView];
-}
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
+  self.navigationController.navigationItem.rightBarButtonItem.image = [[UIImage imageNamed:@"favorite.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
 #pragma mark - Table View
@@ -115,10 +107,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+  BusListingTableViewCell* cell = (BusListingTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
   
   BusStopListing* listing = [_listings objectAtIndex:indexPath.row];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@", listing.route, listing.destination, listing.wait];
+  
+  cell.route.text = listing.route;
+  cell.wait.text = listing.wait;
+  cell.destination.text = listing.destination;
   
   return cell;
 }

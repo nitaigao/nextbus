@@ -8,6 +8,10 @@
 #import "BusStop.h"
 #import "BusStopListing.h"
 
+#import "MapAnnotation.h"
+
+#import "BusStopAnnotation.h"
+
 @interface MasterViewController () {
   NSMutableArray *_stops;
   NSInteger _locationUpdates;
@@ -17,9 +21,11 @@
 
 @implementation MasterViewController
 
+@synthesize mapView;
+
 - (void)awakeFromNib {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-      self.clearsSelectionOnViewWillAppear = NO;
+//      self.clearsSelectionOnViewWillAppear = NO;
       self.preferredContentSize = CGSizeMake(320.0, 600.0);
   }
   
@@ -28,7 +34,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _stops = [[NSMutableArray alloc] init];
@@ -51,46 +57,88 @@
   }
 }
 
+- (void)mapView:(MKMapView *)theMapView regionDidChangeAnimated:(BOOL)animated {
+  [self refreshMap:theMapView.region.center];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(BusStopAnnotation*)annotation {
+  MKAnnotationView *annotationView =  [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
+  
+  UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+  button.frame = CGRectMake(0, 0, 23, 23);
+  button.tag = [_stops indexOfObject:annotation.busStop];
+  [button addTarget:self action:@selector(stopSelected:) forControlEvents:UIControlEventTouchUpInside];
+  annotationView.rightCalloutAccessoryView = button;
+  
+  annotationView.canShowCallout = YES;
+  
+  return annotationView;
+}
+
+- (void)stopSelected:(id)sender {
+  [self performSegueWithIdentifier:@"showDetail" sender:sender];
+}
+
+- (void)refreshMap:(CLLocationCoordinate2D)position {
+  // meters a way = 111km in a degree
+  
+  float metersToDegrees = 1.0f / 111000.0f;
+  
+  float degreesDelta = 300.0f * metersToDegrees;
+  float swLat = position.latitude - degreesDelta;
+  float swLng = position.longitude - degreesDelta;
+  float neLat = position.latitude + degreesDelta;
+  float neLng = position.longitude + degreesDelta;
+
+  
+  NSString* pathPattern = [NSString stringWithFormat:@"/markers/swLat/%f/swLng/%f/neLat/%f/neLng/%f/", swLat, swLng, neLat, neLng];
+  
+  RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[BusStop class]];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"name": @"name"}];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"smsCode": @"id"}];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"direction": @"direction"}];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"lng": @"longitude"}];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"lat": @"latitude"}];
+  [stopMapping addAttributeMappingsFromDictionary:@{@"stopIndicator": @"indicator"}];
+  
+  RKResponseDescriptor *stopDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:stopMapping
+                                                                                      method:RKRequestMethodGET
+                                                                                 pathPattern:pathPattern
+                                                                                     keyPath:@"markers"
+                                                                                 statusCodes:[NSIndexSet indexSetWithIndex:200]];
+  
+  [[RKObjectManager sharedManager] addResponseDescriptor:stopDescriptor];
+  
+  [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
+                                         parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           NSArray* results = [mappingResult array];
+                                           [_stops addObjectsFromArray:results];
+                                           //[self.tableView reloadData];
+                                           
+                                           for (BusStop* stop in _stops) {
+                                             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
+                                             NSString* title = [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name];
+                                             BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
+                                             [mapView addAnnotation:annotation];
+                                           }
+                                           
+                                           
+                                           
+                                         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                           NSLog(@"Load failed");
+                                         }];
+}
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
-  if (++_locationUpdates == 5) {
-    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[BusStop class]];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"name": @"name"}];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"smsCode": @"id"}];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"direction": @"direction"}];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"lng": @"longitude"}];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"lat": @"latitude"}];
-    [stopMapping addAttributeMappingsFromDictionary:@{@"stopIndicator": @"indicator"}];
-  
+  if (++_locationUpdates == 2) {
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
+    MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
+    [mapView setRegion:zoomRegion animated:NO];
     
-    // meters a way = 111km in a degree
-    
-    
-    float degreesDelta = 0.001f;
-    float swLat = newLocation.coordinate.latitude - degreesDelta;
-    float swLng = newLocation.coordinate.longitude - degreesDelta;
-    float neLat = newLocation.coordinate.latitude + degreesDelta;
-    float neLng = newLocation.coordinate.longitude + degreesDelta;
-    
-    NSString* pathPattern = [NSString stringWithFormat:@"/markers/swLat/%f/swLng/%f/neLat/%f/neLng/%f/", swLat, swLng, neLat, neLng];
-    
-    RKResponseDescriptor *stopDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:stopMapping
-                                                                                        method:RKRequestMethodGET
-                                                                                   pathPattern:pathPattern
-                                                                                       keyPath:@"markers"
-                                                                                   statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:stopDescriptor];
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
-                                           parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                             NSArray* results = [mappingResult array];
-                                             [_stops addObjectsFromArray:results];
-                                             [self.tableView reloadData];
-                                           } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                             NSLog(@"Load failed");
-                                           }];
+    [self refreshMap:coordinate];
   }
 }
 
@@ -130,9 +178,9 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  UIButton* button = (UIButton*)sender;
   if ([[segue identifier] isEqualToString:@"showDetail"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    BusStop* stop = _stops[indexPath.row];
+    BusStop* stop = _stops[button.tag];
     [[segue destinationViewController] setDetailItem:stop];
   }
 }
