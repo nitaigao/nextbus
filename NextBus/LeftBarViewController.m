@@ -27,7 +27,7 @@
   
   switch (indexPath.row) {
     case 0:
-        cell.textLabel.text = @"Map";
+        cell.textLabel.text = @"Stops";
       break;
     case 1:
         cell.textLabel.text = @"Favorites";

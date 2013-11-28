@@ -1,5 +1,11 @@
 #import "BusStop.h"
 
+@interface BusStop()
+
++ (void)commitFavorites:(NSArray*)favorites;
+
+@end
+
 @implementation BusStop
 
 @synthesize name, id, direction, latitude, longitude, indicator;
@@ -33,18 +39,12 @@
       return;
     }
   }
-
   
   NSMutableArray* favorites = [NSMutableArray arrayWithArray:existingFavorites];
   
   [favorites addObject:self];
   
-  NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:favorites];
-  
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:encodedObject forKey:@"favorites"];
-  [defaults synchronize];
-  
+  [BusStop commitFavorites:favorites];
 }
 
 + (NSArray*)allFavorites {
@@ -61,6 +61,26 @@
   }
   
   return favorites;
+}
+
++ (void)deleteFavorite:(BusStop*)stop {
+  NSArray* existingFavorites = [BusStop allFavorites];
+  NSMutableArray* finalFavorites = [NSMutableArray arrayWithArray:existingFavorites];
+  
+  for (BusStop* existingStop in existingFavorites) {
+    if ([stop.name compare:existingStop.name] == NSOrderedSame) {
+      [finalFavorites removeObject:existingStop];
+    }
+  }
+  
+  [self commitFavorites:finalFavorites];
+}
+
++ (void)commitFavorites:(NSArray*)favorites {
+  NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:favorites];
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  [defaults setObject:encodedObject forKey:@"favorites"];
+  [defaults synchronize];
 }
 
 @end

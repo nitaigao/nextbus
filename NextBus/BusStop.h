@@ -11,6 +11,8 @@
 @property (nonatomic) double longitude;
 
 - (void)saveFavorite;
+
 + (NSArray*)allFavorites;
++ (void)deleteFavorite:(BusStop*)stop;
 
 @end

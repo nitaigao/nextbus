@@ -15,8 +15,7 @@
 
 @synthesize drawerController;
 
-- (id)init
-{
+- (id)init {
   self = [super init];
   if (self) {
     favoriteStops = [NSMutableArray array];
@@ -30,7 +29,7 @@
 
 - (void)viewDidLoad {
   MMDrawerBarButtonItem* leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-  [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+  self.navigationItem.leftBarButtonItem = leftDrawerButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -38,8 +37,9 @@
   
   NSArray* stops = [BusStop allFavorites];
   [favoriteStops addObjectsFromArray:stops];
+  
+  [self.tableView reloadData];
 }
-
 
 #pragma mark - Table view data source
 
@@ -62,6 +62,24 @@
   cell.textLabel.text = stop.name;
   
   return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+  return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    BusStop* stop =[favoriteStops objectAtIndex:indexPath.row];
+    [BusStop deleteFavorite:stop];
+    
+    [favoriteStops removeObjectAtIndex:indexPath.row];
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+  } else if (editingStyle == UITableViewCellEditingStyleInsert) { }
 }
 
 @end

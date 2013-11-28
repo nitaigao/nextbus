@@ -15,9 +15,11 @@
   {
     FavoritesViewController* favoritesViewController = [[FavoritesViewController alloc] init];
     UINavigationController* favoritesController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
+    favoritesViewController.title = @"Favorites";
 
     LeftBarViewController* leftSideDrawerViewController = [[LeftBarViewController alloc] init];
     leftSideDrawerViewController.favoritesViewController = favoritesController;
+    leftSideDrawerViewController.title = @"Next Bus";
     
     UINavigationController* leftSideNavController = [[UINavigationController alloc] initWithRootViewController:leftSideDrawerViewController];
     
@@ -32,9 +34,12 @@
     MasterViewController* masterController = (MasterViewController*)navigationController.visibleViewController;;
     masterController.drawerController = self.drawerController;
     favoritesViewController.drawerController = self.drawerController;
+    masterController.title = @"Stops";
+    
     leftSideDrawerViewController.mapViewController = masterController.navigationController;
     
-    [self.drawerController setShowsShadow:NO];
+    [self.drawerController setMaximumLeftDrawerWidth:200];
+    [self.drawerController setShowsShadow:YES];
     [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
