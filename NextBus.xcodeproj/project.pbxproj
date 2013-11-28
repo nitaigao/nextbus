@@ -17,6 +17,7 @@
 		4C38BBD018464A6500C86409 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBCF18464A6500C86409 /* favorite.png */; };
 		4C38BBD218464B4200C86409 /* favorite.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBD118464B4200C86409 /* favorite.bmp */; };
 		4C38BBD518465D4300C86409 /* BusStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C38BBD418465D4300C86409 /* BusStopAnnotation.m */; };
+		4C7210C71847D88900B2A973 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210C61847D88900B2A973 /* FavoritesViewController.m */; };
 		4C87B416182AEBDA00F55F1D /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B415182AEBDA00F55F1D /* BusStop.m */; };
 		4CF1DDB9182AE9FB00DE6BC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDB8182AE9FB00DE6BC5 /* Foundation.framework */; };
 		4CF1DDBB182AE9FB00DE6BC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDBA182AE9FB00DE6BC5 /* CoreGraphics.framework */; };
@@ -61,6 +62,8 @@
 		4C38BBD118464B4200C86409 /* favorite.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = favorite.bmp; sourceTree = "<group>"; };
 		4C38BBD318465D4300C86409 /* BusStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopAnnotation.h; sourceTree = "<group>"; };
 		4C38BBD418465D4300C86409 /* BusStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopAnnotation.m; sourceTree = "<group>"; };
+		4C7210C51847D88900B2A973 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
+		4C7210C61847D88900B2A973 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
 		4C87B414182AEBDA00F55F1D /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
 		4C87B415182AEBDA00F55F1D /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
 		4CF1DDB5182AE9FB00DE6BC5 /* NextBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +122,9 @@
 		4C1AF28C182B81CF000CE129 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4C7210C41847D86000B2A973 /* Favorites */,
+				4C38BBCD1846448400C86409 /* Stop */,
+				4C38BBC518463B7C00C86409 /* StopListing */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -154,6 +160,15 @@
 				4C38BBCF18464A6500C86409 /* favorite.png */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		4C7210C41847D86000B2A973 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				4C7210C51847D88900B2A973 /* FavoritesViewController.h */,
+				4C7210C61847D88900B2A973 /* FavoritesViewController.m */,
+			);
+			name = Favorites;
 			sourceTree = "<group>";
 		};
 		4C87B413182AEBCF00F55F1D /* Model */ = {
@@ -206,8 +221,6 @@
 		4CF1DDBE182AE9FB00DE6BC5 /* NextBus */ = {
 			isa = PBXGroup;
 			children = (
-				4C38BBCD1846448400C86409 /* Stop */,
-				4C38BBC518463B7C00C86409 /* StopListing */,
 				4C1AF28C182B81CF000CE129 /* View */,
 				4C87B413182AEBCF00F55F1D /* Model */,
 				4CF1DDC7182AE9FB00DE6BC5 /* AppDelegate.h */,
@@ -384,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C7210C71847D88900B2A973 /* FavoritesViewController.m in Sources */,
 				4CF1DDC9182AE9FB00DE6BC5 /* AppDelegate.m in Sources */,
 				4C1AF289182AFDB6000CE129 /* BusStopListing.m in Sources */,
 				4CF1DDD2182AE9FB00DE6BC5 /* MasterViewController.m in Sources */,

@@ -12,6 +12,9 @@
 
 #import "BusStopAnnotation.h"
 
+#import <MMDrawerController/MMDrawerController.h>
+#import <MMDrawerController/MMDrawerBarButtonItem.h>
+
 @interface MasterViewController () {
   NSMutableArray *_stops;
   NSInteger _locationUpdates;
@@ -21,10 +24,17 @@
 
 @implementation MasterViewController
 
-@synthesize mapView;
+@synthesize mapView, drawerController;
+
+- (void)leftDrawerButtonPress:(id)sender {
+  [self.drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+//  MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+//  [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findUser) name:UIApplicationDidBecomeActiveNotification object:nil];
   
@@ -70,9 +80,9 @@
   }
 
   {
-//  #ifndef TARGET_IPHONE_SIMULATOR
+  #ifndef TARGET_IPHONE_SIMULATOR
     [locationManager startUpdatingLocation];
-//  #endif
+  #endif
   }
 }
 

@@ -131,4 +131,8 @@
   self.masterPopoverController = nil;
 }
 
+- (IBAction)addFavorite:(id)sender {
+  [self.detailItem saveFavorite];
+}
+
 @end

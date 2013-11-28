@@ -2,6 +2,7 @@
 # platform :ios, "6.0"
 
 target "NextBus" do
+	pod 'MMDrawerController'
 	pod 'RestKit'
 	pod 'RKXMLReaderSerialization', :git => 'https://github.com/RestKit/RKXMLReaderSerialization.git', :branch => 'master'
 end

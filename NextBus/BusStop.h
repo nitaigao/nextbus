@@ -10,4 +10,7 @@
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 
+- (void)saveFavorite;
++ (NSArray*)allFavorites;
+
 @end
