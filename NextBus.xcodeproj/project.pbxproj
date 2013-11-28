@@ -17,7 +17,10 @@
 		4C38BBD018464A6500C86409 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBCF18464A6500C86409 /* favorite.png */; };
 		4C38BBD218464B4200C86409 /* favorite.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBD118464B4200C86409 /* favorite.bmp */; };
 		4C38BBD518465D4300C86409 /* BusStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C38BBD418465D4300C86409 /* BusStopAnnotation.m */; };
-		4C7210C71847D88900B2A973 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210C61847D88900B2A973 /* FavoritesViewController.m */; };
+		4C7210CF1847DE3900B2A973 /* LeftBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210CD1847DE3900B2A973 /* LeftBarViewController.m */; };
+		4C7210D01847DE3900B2A973 /* LeftBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C7210CE1847DE3900B2A973 /* LeftBarViewController.xib */; };
+		4C7210D41847E15700B2A973 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210D21847E15700B2A973 /* FavoritesViewController.m */; };
+		4C7210D51847E15700B2A973 /* FavoritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C7210D31847E15700B2A973 /* FavoritesViewController.xib */; };
 		4C87B416182AEBDA00F55F1D /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B415182AEBDA00F55F1D /* BusStop.m */; };
 		4CF1DDB9182AE9FB00DE6BC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDB8182AE9FB00DE6BC5 /* Foundation.framework */; };
 		4CF1DDBB182AE9FB00DE6BC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1DDBA182AE9FB00DE6BC5 /* CoreGraphics.framework */; };
@@ -62,8 +65,12 @@
 		4C38BBD118464B4200C86409 /* favorite.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = favorite.bmp; sourceTree = "<group>"; };
 		4C38BBD318465D4300C86409 /* BusStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopAnnotation.h; sourceTree = "<group>"; };
 		4C38BBD418465D4300C86409 /* BusStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopAnnotation.m; sourceTree = "<group>"; };
-		4C7210C51847D88900B2A973 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
-		4C7210C61847D88900B2A973 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
+		4C7210CC1847DE3900B2A973 /* LeftBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarViewController.h; sourceTree = "<group>"; };
+		4C7210CD1847DE3900B2A973 /* LeftBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarViewController.m; sourceTree = "<group>"; };
+		4C7210CE1847DE3900B2A973 /* LeftBarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftBarViewController.xib; sourceTree = "<group>"; };
+		4C7210D11847E15700B2A973 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
+		4C7210D21847E15700B2A973 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
+		4C7210D31847E15700B2A973 /* FavoritesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoritesViewController.xib; sourceTree = "<group>"; };
 		4C87B414182AEBDA00F55F1D /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
 		4C87B415182AEBDA00F55F1D /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
 		4CF1DDB5182AE9FB00DE6BC5 /* NextBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +129,7 @@
 		4C1AF28C182B81CF000CE129 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4C7210C81847DDAC00B2A973 /* LeftBar */,
 				4C7210C41847D86000B2A973 /* Favorites */,
 				4C38BBCD1846448400C86409 /* Stop */,
 				4C38BBC518463B7C00C86409 /* StopListing */,
@@ -165,10 +173,21 @@
 		4C7210C41847D86000B2A973 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				4C7210C51847D88900B2A973 /* FavoritesViewController.h */,
-				4C7210C61847D88900B2A973 /* FavoritesViewController.m */,
+				4C7210D11847E15700B2A973 /* FavoritesViewController.h */,
+				4C7210D21847E15700B2A973 /* FavoritesViewController.m */,
+				4C7210D31847E15700B2A973 /* FavoritesViewController.xib */,
 			);
 			name = Favorites;
+			sourceTree = "<group>";
+		};
+		4C7210C81847DDAC00B2A973 /* LeftBar */ = {
+			isa = PBXGroup;
+			children = (
+				4C7210CC1847DE3900B2A973 /* LeftBarViewController.h */,
+				4C7210CD1847DE3900B2A973 /* LeftBarViewController.m */,
+				4C7210CE1847DE3900B2A973 /* LeftBarViewController.xib */,
+			);
+			name = LeftBar;
 			sourceTree = "<group>";
 		};
 		4C87B413182AEBCF00F55F1D /* Model */ = {
@@ -343,8 +362,10 @@
 				4CF1DDCF182AE9FB00DE6BC5 /* Main_iPad.storyboard in Resources */,
 				4C38BBD018464A6500C86409 /* favorite.png in Resources */,
 				4CF1DDD7182AE9FB00DE6BC5 /* Images.xcassets in Resources */,
+				4C7210D01847DE3900B2A973 /* LeftBarViewController.xib in Resources */,
 				4CF1DDCC182AE9FB00DE6BC5 /* Main_iPhone.storyboard in Resources */,
 				4CF1DDC3182AE9FB00DE6BC5 /* InfoPlist.strings in Resources */,
+				4C7210D51847E15700B2A973 /* FavoritesViewController.xib in Resources */,
 				4C38BBD218464B4200C86409 /* favorite.bmp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,7 +418,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C7210C71847D88900B2A973 /* FavoritesViewController.m in Sources */,
 				4CF1DDC9182AE9FB00DE6BC5 /* AppDelegate.m in Sources */,
 				4C1AF289182AFDB6000CE129 /* BusStopListing.m in Sources */,
 				4CF1DDD2182AE9FB00DE6BC5 /* MasterViewController.m in Sources */,
@@ -405,6 +425,8 @@
 				4C87B416182AEBDA00F55F1D /* BusStop.m in Sources */,
 				4CF1DDC5182AE9FB00DE6BC5 /* main.m in Sources */,
 				4CF1DDD5182AE9FB00DE6BC5 /* DetailViewController.m in Sources */,
+				4C7210CF1847DE3900B2A973 /* LeftBarViewController.m in Sources */,
+				4C7210D41847E15700B2A973 /* FavoritesViewController.m in Sources */,
 				4C38BBD518465D4300C86409 /* BusStopAnnotation.m in Sources */,
 				4C1AF28F182B81DC000CE129 /* MapAnnotation.m in Sources */,
 			);

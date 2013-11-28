@@ -33,8 +33,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-//  MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-//  [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+  MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+  [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findUser) name:UIApplicationDidBecomeActiveNotification object:nil];
   

@@ -5,24 +5,27 @@
 @synthesize name, id, direction, latitude, longitude, indicator;
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-  //Encode properties, other class variables, etc
-//  [encoder encodeObject:self.question forKey:@"question"];
-//  [encoder encodeObject:self.categoryName forKey:@"category"];
-//  [encoder encodeObject:self.subCategoryName forKey:@"subcategory"];
+  [encoder encodeObject:self.name forKey:@"name"];
+  [encoder encodeObject:self.id forKey:@"id"];
+  [encoder encodeObject:self.direction forKey:@"direction"];
+  [encoder encodeObject:self.indicator forKey:@"indicator"];
+  [encoder encodeDouble:self.latitude forKey:@"latitude"];
+  [encoder encodeDouble:self.longitude forKey:@"londitude"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
   if((self = [super init])) {
-    //decode properties, other class vars
-//    self.question = [decoder decodeObjectForKey:@"question"];
-//    self.categoryName = [decoder decodeObjectForKey:@"category"];
-//    self.subCategoryName = [decoder decodeObjectForKey:@"subcategory"];
+    self.name = [decoder decodeObjectForKey:@"name"];
+    self.id = [decoder decodeObjectForKey:@"id"];
+    self.direction = [decoder decodeObjectForKey:@"direction"];
+    self.indicator = [decoder decodeObjectForKey:@"indicator"];
+    self.latitude = [decoder decodeDoubleForKey:@"latitude"];
+    self.longitude = [decoder decodeDoubleForKey:@"longitude"];
   }
   return self;
 }
 
 - (void)saveFavorite {
-  
   NSArray* existingFavorites = [BusStop allFavorites];
   
   for (BusStop* stop in existingFavorites) {
