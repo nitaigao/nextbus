@@ -44,6 +44,7 @@
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:encodedObject forKey:@"favorites"];
   [defaults synchronize];
+  
 }
 
 + (NSArray*)allFavorites {
