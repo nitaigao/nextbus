@@ -176,7 +176,10 @@
       
       for (BusStop* stop in favorites) {
         float userDistanceFromStop = [stop distanceFromLocation:CGPointMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)];
-        if (userDistanceFromStop < 0.01f) {
+//        NSLog(@"################ %f %f ###############", stop.latitude, stop.longitude);
+//        NSLog(@"################ %f %f ###############", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+//        NSLog(@"################ %f ###############", userDistanceFromStop);
+        if (userDistanceFromStop < 0.001f) {
           coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
           span = MKCoordinateSpanMake(0.001, 0.001);
           break;

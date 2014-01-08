@@ -84,7 +84,13 @@
 }
 
 - (float)distanceFromLocation:(CGPoint)location {
-  return 0.0f;
+
+  float x = latitude - location.x;
+  float y = longitude - location.y;
+  
+  float length = sqrt(x * x + y * y);
+  
+  return length;
 }
 
 @end
