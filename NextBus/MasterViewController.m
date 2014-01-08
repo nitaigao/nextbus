@@ -63,7 +63,6 @@
     MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
     [mapView setRegion:zoomRegion animated:NO];
   }
-
 }
 
 - (void)findUser {
@@ -73,16 +72,7 @@
   }
   
   {
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(51.507222,-0.1275);
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.3, 0.3);
-    MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
-    [mapView setRegion:zoomRegion animated:YES];
-  }
-
-  {
-  #ifndef TARGET_IPHONE_SIMULATOR
     [locationManager startUpdatingLocation];
-  #endif
   }
 }
 
@@ -176,6 +166,7 @@
     [mapView setRegion:zoomRegion animated:YES];
     
     [self refreshMap:coordinate];
+    [locationManager stopUpdatingLocation];
   }
 }
 
