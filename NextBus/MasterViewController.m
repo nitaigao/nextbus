@@ -83,7 +83,6 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   if([annotation isKindOfClass:[BusStopAnnotation class]]) {
     MKPinAnnotationView* annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
-//    MKAnnotationView *annotationView =  [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
     
     BusStopAnnotation* stopAnnotation = (BusStopAnnotation*)annotation;
     
