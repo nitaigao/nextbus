@@ -136,24 +136,31 @@
   [[RKObjectManager sharedManager] getObjectsAtPath:pathPattern
                                          parameters:nil
                                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                         NSArray* results = [mappingResult array];
-                                         [_stops removeAllObjects];
-                                         [_stops addObjectsFromArray:results];
-                                         
-                                         for (id annotation in mapView.annotations) {
-                                           [mapView removeAnnotation:annotation];
-                                         }
-                                         
-                                         for (BusStop* stop in _stops) {
-                                           CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
-                                           NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
-                                           BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
-                                           [mapView addAnnotation:annotation];
-                                         }
-                                         
-                                       } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                         NSLog(@"Load failed");
-                                       }];
+                                              NSArray* results = [mappingResult array];
+                                              
+                                              for (BusStop* stop in results) {
+                                                BOOL foundStop = false;
+                                                
+                                                for (BusStopAnnotation* annotation in mapView.annotations) {
+                                                  if ([annotation isKindOfClass:[BusStopAnnotation class]]) {
+                                                    if (annotation.busStop.latitude == stop.latitude &&
+                                                       annotation.busStop.longitude == stop.longitude) {
+                                                      foundStop = true;
+                                                      break;
+                                                    }
+                                                  }
+                                                }
+                                                
+                                                if (!foundStop) {
+                                                  CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
+                                                  NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
+                                                  BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
+                                                  [mapView addAnnotation:annotation];
+                                                }
+                                              }
+                                              } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                              NSLog(@"Load failed");
+                                              }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
