@@ -168,6 +168,7 @@
            fromLocation:(CLLocation *)oldLocation {
   if (++_locationUpdates == 2) {
 
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     
     {
@@ -177,16 +178,15 @@
         float userDistanceFromStop = [stop distanceFromLocation:CGPointMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)];
         if (userDistanceFromStop < 0.01f) {
           coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
+          span = MKCoordinateSpanMake(0.001, 0.001);
           break;
         }
       }
     }
 
     {
-      MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
       MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
       [mapView setRegion:zoomRegion animated:YES];
-      
       [self refreshMap:coordinate];
     }
       
