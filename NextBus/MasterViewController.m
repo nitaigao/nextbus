@@ -75,7 +75,9 @@
 }
 
 - (void)mapView:(MKMapView *)theMapView regionDidChangeAnimated:(BOOL)animated {
-  [self refreshMap:theMapView.region.center];
+  if (_locationUpdates >= 2) {
+    [self refreshMap:theMapView.region.center];
+  }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -86,12 +88,9 @@
     
     BusStopButton *button = [BusStopButton buttonWithBusStop:stopAnnotation.busStop];
     
-    button.frame = CGRectMake(0, 0, 23, 23);
-    
     [button addTarget:self action:@selector(stopSelected:) forControlEvents:UIControlEventTouchUpInside];
     annotationView.rightCalloutAccessoryView = button;
     annotationView.animatesDrop = YES;
-    
     annotationView.canShowCallout = YES;
     
     return annotationView;
@@ -176,12 +175,15 @@
       
       for (BusStop* stop in favorites) {
         float userDistanceFromStop = [stop distanceFromLocation:CGPointMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)];
-//        NSLog(@"################ %f %f ###############", stop.latitude, stop.longitude);
-//        NSLog(@"################ %f %f ###############", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-//        NSLog(@"################ %f ###############", userDistanceFromStop);
         if (userDistanceFromStop < 0.001f) {
           coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
           span = MKCoordinateSpanMake(0.001, 0.001);
+          
+          CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
+          NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
+          BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
+          [mapView addAnnotation:annotation];
+          
           break;
         }
       }

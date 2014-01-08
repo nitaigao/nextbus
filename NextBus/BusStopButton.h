@@ -4,8 +4,6 @@
 
 @interface BusStopButton : UIButton
 
-- (id)initWithBusStop:(BusStop*)busStop;
-
 @property (nonatomic, strong) BusStop* busStop;
 
 + (id)buttonWithBusStop:(BusStop*)busStop;

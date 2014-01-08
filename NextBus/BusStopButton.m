@@ -5,19 +5,10 @@
 @synthesize busStop;
 
 + (id)buttonWithBusStop:(BusStop *)busStop {
-  BusStopButton* button = [[BusStopButton alloc] initWithBusStop:busStop];
-  
-//  button.buttonType = UIButtonTypeInfoLight;
+  BusStopButton* button = (BusStopButton*)[super buttonWithType:UIButtonTypeDetailDisclosure];
+  button.busStop = busStop;
   
   return button;
-}
-
-- (id)initWithBusStop:(BusStop*)aBusStop {
-  self = [super init];
-  if (self) {
-    self.busStop = aBusStop;
-  }
-  return self;
 }
 
 @end
