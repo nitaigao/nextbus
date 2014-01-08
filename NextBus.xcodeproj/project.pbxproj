@@ -17,6 +17,7 @@
 		4C38BBD018464A6500C86409 /* favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBCF18464A6500C86409 /* favorite.png */; };
 		4C38BBD218464B4200C86409 /* favorite.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 4C38BBD118464B4200C86409 /* favorite.bmp */; };
 		4C38BBD518465D4300C86409 /* BusStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C38BBD418465D4300C86409 /* BusStopAnnotation.m */; };
+		4C4B09CA187D48E000934B05 /* BusStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4B09C9187D48E000934B05 /* BusStopButton.m */; };
 		4C7210CF1847DE3900B2A973 /* LeftBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210CD1847DE3900B2A973 /* LeftBarViewController.m */; };
 		4C7210D01847DE3900B2A973 /* LeftBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C7210CE1847DE3900B2A973 /* LeftBarViewController.xib */; };
 		4C7210D41847E15700B2A973 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7210D21847E15700B2A973 /* FavoritesViewController.m */; };
@@ -65,6 +66,8 @@
 		4C38BBD118464B4200C86409 /* favorite.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = favorite.bmp; sourceTree = "<group>"; };
 		4C38BBD318465D4300C86409 /* BusStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopAnnotation.h; sourceTree = "<group>"; };
 		4C38BBD418465D4300C86409 /* BusStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopAnnotation.m; sourceTree = "<group>"; };
+		4C4B09C8187D48E000934B05 /* BusStopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopButton.h; sourceTree = "<group>"; };
+		4C4B09C9187D48E000934B05 /* BusStopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopButton.m; sourceTree = "<group>"; };
 		4C7210CC1847DE3900B2A973 /* LeftBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarViewController.h; sourceTree = "<group>"; };
 		4C7210CD1847DE3900B2A973 /* LeftBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarViewController.m; sourceTree = "<group>"; };
 		4C7210CE1847DE3900B2A973 /* LeftBarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftBarViewController.xib; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 				4C1AF28E182B81DC000CE129 /* MapAnnotation.m */,
 				4CF1DDD0182AE9FB00DE6BC5 /* MasterViewController.h */,
 				4CF1DDD1182AE9FB00DE6BC5 /* MasterViewController.m */,
+				4C4B09C8187D48E000934B05 /* BusStopButton.h */,
+				4C4B09C9187D48E000934B05 /* BusStopButton.m */,
 			);
 			name = Stop;
 			sourceTree = "<group>";
@@ -428,6 +433,7 @@
 				4C7210CF1847DE3900B2A973 /* LeftBarViewController.m in Sources */,
 				4C7210D41847E15700B2A973 /* FavoritesViewController.m in Sources */,
 				4C38BBD518465D4300C86409 /* BusStopAnnotation.m in Sources */,
+				4C4B09CA187D48E000934B05 /* BusStopButton.m in Sources */,
 				4C1AF28F182B81DC000CE129 /* MapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

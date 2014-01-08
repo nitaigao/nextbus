@@ -16,7 +16,7 @@
   [encoder encodeObject:self.direction forKey:@"direction"];
   [encoder encodeObject:self.indicator forKey:@"indicator"];
   [encoder encodeDouble:self.latitude forKey:@"latitude"];
-  [encoder encodeDouble:self.longitude forKey:@"londitude"];
+  [encoder encodeDouble:self.longitude forKey:@"longitude"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -81,6 +81,10 @@
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:encodedObject forKey:@"favorites"];
   [defaults synchronize];
+}
+
+- (float)distanceFromLocation:(CGPoint)location {
+  return 0.0f;
 }
 
 @end

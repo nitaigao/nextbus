@@ -6,6 +6,7 @@
 #import <RKXMLReaderSerialization.h>
 
 #import "BusStop.h"
+#import "BusStopButton.h"
 #import "BusStopListing.h"
 
 #import "MapAnnotation.h"
@@ -16,7 +17,6 @@
 #import <MMDrawerController/MMDrawerBarButtonItem.h>
 
 @interface MasterViewController () {
-  NSMutableArray *_stops;
   NSInteger _locationUpdates;
   CLLocationManager* locationManager;
 }
@@ -39,8 +39,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findUser) name:UIApplicationDidBecomeActiveNotification object:nil];
   
   self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-  
-  _stops = [[NSMutableArray alloc] init];
   
   {
     NSURL* host = [NSURL URLWithString:@"http://countdown.tfl.gov.uk"];
@@ -86,9 +84,10 @@
     
     BusStopAnnotation* stopAnnotation = (BusStopAnnotation*)annotation;
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    BusStopButton *button = [BusStopButton buttonWithBusStop:stopAnnotation.busStop];
+    
     button.frame = CGRectMake(0, 0, 23, 23);
-    button.tag = [_stops indexOfObject:stopAnnotation.busStop];
+    
     [button addTarget:self action:@selector(stopSelected:) forControlEvents:UIControlEventTouchUpInside];
     annotationView.rightCalloutAccessoryView = button;
     annotationView.animatesDrop = YES;
@@ -168,28 +167,37 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
   if (++_locationUpdates == 2) {
+
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
-    MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
-    [mapView setRegion:zoomRegion animated:YES];
     
-    [self refreshMap:coordinate];
+    {
+      NSArray* favorites = [BusStop allFavorites];
+      
+      for (BusStop* stop in favorites) {
+        float userDistanceFromStop = [stop distanceFromLocation:CGPointMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)];
+        if (userDistanceFromStop < 0.01f) {
+          coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
+          break;
+        }
+      }
+    }
+
+    {
+      MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
+      MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
+      [mapView setRegion:zoomRegion animated:YES];
+      
+      [self refreshMap:coordinate];
+    }
+      
     [locationManager stopUpdatingLocation];
   }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    BusStop* stop = _stops[indexPath.row];
-    self.detailViewController.detailItem = stop;
-  }
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  UIButton* button = (UIButton*)sender;
+  BusStopButton* button = (BusStopButton*)sender;
   if ([[segue identifier] isEqualToString:@"showDetail"]) {
-    BusStop* stop = _stops[button.tag];
-    [[segue destinationViewController] setDetailItem:stop];
+    [[segue destinationViewController] setDetailItem:button.busStop];
   }
 }
 

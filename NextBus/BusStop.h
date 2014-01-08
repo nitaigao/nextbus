@@ -12,6 +12,8 @@
 
 - (void)saveFavorite;
 
+- (float)distanceFromLocation:(CGPoint)location;
+
 + (NSArray*)allFavorites;
 + (void)deleteFavorite:(BusStop*)stop;
 
