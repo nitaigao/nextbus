@@ -82,7 +82,8 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   if([annotation isKindOfClass:[BusStopAnnotation class]]) {
-    MKAnnotationView *annotationView =  [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
+    MKPinAnnotationView* annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
+//    MKAnnotationView *annotationView =  [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"BusStop"];
     
     BusStopAnnotation* stopAnnotation = (BusStopAnnotation*)annotation;
     
@@ -91,6 +92,7 @@
     button.tag = [_stops indexOfObject:stopAnnotation.busStop];
     [button addTarget:self action:@selector(stopSelected:) forControlEvents:UIControlEventTouchUpInside];
     annotationView.rightCalloutAccessoryView = button;
+    annotationView.animatesDrop = YES;
     
     annotationView.canShowCallout = YES;
     
