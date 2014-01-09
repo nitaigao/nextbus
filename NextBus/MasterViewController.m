@@ -171,37 +171,14 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
   if (++_locationUpdates == 2) {
+    [locationManager stopUpdatingLocation];
 
     MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-    
-    {
-      NSArray* favorites = [BusStop allFavorites];
-      
-      for (BusStop* stop in favorites) {
-        float userDistanceFromStop = [stop distanceFromLocation:CGPointMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude)];
-        if (userDistanceFromStop < 0.001f) {
-          coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
-          span = MKCoordinateSpanMake(0.001, 0.001);
-          
-          CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(stop.latitude, stop.longitude);
-          NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
-          BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
-          [mapView addAnnotation:annotation];
-          [mapView showAnnotations:@[annotation] animated:YES];
-          
-          break;
-        }
-      }
-    }
 
-    {
-      MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
-      [mapView setRegion:zoomRegion animated:YES];
-      [self refreshMap:coordinate];
-    }
-      
-    [locationManager stopUpdatingLocation];
+    MKCoordinateRegion zoomRegion = MKCoordinateRegionMake(coordinate, span);
+    [mapView setRegion:zoomRegion animated:YES];
+    [self refreshMap:coordinate];
   }
 }
 
