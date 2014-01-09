@@ -140,6 +140,11 @@
                                               for (BusStop* stop in results) {
                                                 BOOL foundStop = false;
                                                 
+//                                                for (NSUInteger i = mapView.annotations.count - 1; i > 20; i--) {
+//                                                  id<MKAnnotation> annotation = [[[mapView.annotations reverseObjectEnumerator] allObjects] objectAtIndex:i];
+//                                                  [mapView removeAnnotation:annotation];
+//                                                }
+                                                
                                                 for (BusStopAnnotation* annotation in mapView.annotations) {
                                                   if ([annotation isKindOfClass:[BusStopAnnotation class]]) {
                                                     if (annotation.busStop.latitude == stop.latitude &&
@@ -183,6 +188,7 @@
           NSString* title = stop.indicator ? [NSString stringWithFormat:@"%@ - %@", stop.indicator, stop.name] : stop.name;
           BusStopAnnotation* annotation = [[BusStopAnnotation alloc] initWithCoordinate:coordinate andTitle:title andBusStop:stop];
           [mapView addAnnotation:annotation];
+          [mapView showAnnotations:@[annotation] animated:YES];
           
           break;
         }
